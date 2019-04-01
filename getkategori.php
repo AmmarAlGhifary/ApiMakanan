@@ -8,7 +8,7 @@ include './config/koneksi.php';
 
     // Mengambil ip server
     $server_ip = gethostbyname(gethostname());
-    $server_ip = $_SERVER['SERVER_ADDR'];
+    // $server_ip = $_SERVER['SERVER_ADDR'];
 
     // Membuat url upload
     $upload_url = 'http://'.$server_ip.'/makanan/'.$upload_path;
@@ -29,7 +29,8 @@ $cek = mysqli_num_rows($result);
 // Melakukan kondisi untuk mengecek apakah query tadi ada isinya
 if ($cek > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
-	array_push($row['url_makanan'] = $upload_url . $row['foto_kategori']);
+	$row['url_makanan'] = $upload_url . $row['foto_kategori'];
+	array_push($row['url_makanan']);
 	$temparray[] = $row;
 	}
 

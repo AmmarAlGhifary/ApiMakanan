@@ -23,7 +23,7 @@ tm.id_user,
 tm.id_kategori,
 tm.nama_makanan,
 tm.desc_makanan,
-tm.foto_makanan,
+tm.foto_makanan AS foto,
 tm.insert_time,
 tm.view,
 tu.nama_user,
@@ -51,7 +51,8 @@ $cek = mysqli_num_rows($result);
 if ($cek > 0) {
 
 	while ($row = mysqli_fetch_assoc($result)) {
-		array_push($row['url_makanan'] = $upload_url . $row['foto_makanan']);
+		$row['url_makanan'] = $upload_url . $row['foto'];
+		array_push($row['url_makanan']);		
 		// Mengambil data view dan increment + 1
 		$jumlahview = $row['view']+1;
 		$temparray = $row;
