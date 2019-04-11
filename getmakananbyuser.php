@@ -4,7 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 include './config/koneksi.php';
 
  // Membuat nama folder upload image
-    $upload_path = 'image/';
+    $upload_path = 'uploads/';
 
     // Mengambil ip server
     $server_ip = gethostbyname(gethostname());
@@ -13,8 +13,31 @@ include './config/koneksi.php';
     // Membuat url upload
     $upload_url = 'http://'.$server_ip.'/makanan/'.$upload_path;
 
+    // Membuat penampung untuk inputan user dari parameter GET
+    $iduser = $_GET['iduser'];
+
 // Membuat penampung query
-$query = "SELECT * FROM tb_kategori ORDER BY id_kategori ASC";
+$query = "SELECT
+tm.id_makanan,
+tm.id_user,
+tm.id_kategori,
+tm.nama_makanan,
+tm.desc_makanan,
+tm.foto_makanan AS foto,
+tm.insert_time,
+tm.view,
+tu.nama_user,
+tk.nama_kategori 
+FROM 
+tb_user tu,
+tb_makanan tm,
+tb_kategori tk 
+WHERE
+tu.id_user = tm.id_user &&
+tk.id_kategori = tm.id_kategori &&
+tm.id_user = '$iduser'
+ORDER BY tm.view DESC
+";
 
 // Membuat penampung result/hasil dari eksekusi query
 $result = mysqli_query($connection, $query) or die ("Error in selecting " . mysqli_error($connection));
@@ -29,8 +52,8 @@ $cek = mysqli_num_rows($result);
 // Melakukan kondisi untuk mengecek apakah query tadi ada isinya
 if ($cek > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
-	$row['url_makanan'] = $upload_url . $row['foto_kategori'];
-	array_push($row['url_makanan']);
+	$row['url_makanan'] = $upload_url . $row['foto'];
+	array_push($row['url_makanan']);	
 	$temparray[] = $row;
 	}
 

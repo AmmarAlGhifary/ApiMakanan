@@ -1,4 +1,4 @@
-<?php
+r<?php
 	include './config/koneksi.php';
 	
 	// Membuat penampung response
